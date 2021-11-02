@@ -5,6 +5,12 @@
     android:layout_height="match_parent"
     tools:context=".ui.TvShowFragment">
 
+    <ProgressBar
+        android:id="@+id/pb_tv_shows"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_tv_shows_fragment"
         android:layout_width="match_parent"

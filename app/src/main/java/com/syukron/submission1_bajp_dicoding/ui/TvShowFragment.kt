@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.syukron.submission1_bajp_dicoding.adapter.AdapterMovie
-import com.syukron.submission1_bajp_dicoding.databinding.FragmentTvShowBinding
-import com.syukron.submission1_bajp_dicoding.model.EntityData
+import com.syukron.submission1_bajp_dicoding.R
+import com.syukron.submission1_bajp_dicoding.adapter.AdapterTvShow
+import com.syukron.submission1_bajp_dicoding.model.tvshow.TvShow
 import com.syukron.submission1_bajp_dicoding.viewmodel.TvShowViewModel
+import com.syukron.submission1_bajp_dicoding.viewmodel.ViewModelFactory
+import kotlinx.android.synthetic.main.fragment_tv_show.*
 
 
 class TvShowFragment : Fragment() {
@@ -19,39 +21,60 @@ class TvShowFragment : Fragment() {
         const val TVSHOW_TYPE = "tvshow_type"
     }
 
-    private var movieAdapter = AdapterMovie()
-    private lateinit var fragmentTvShowBinding: FragmentTvShowBinding
+    private lateinit var tvShowAdapter: AdapterTvShow
     private lateinit var tvShowViewModel: TvShowViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        fragmentTvShowBinding = FragmentTvShowBinding.inflate(inflater, container, false)
-        return fragmentTvShowBinding.root
+        return inflater.inflate(R.layout.fragment_tv_show, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tvShowViewModel = ViewModelProvider(requireActivity(), ViewModelProvider.NewInstanceFactory()).get(TvShowViewModel::class.java)
+        progressBar(true)
 
-        movieAdapter.setData(tvShowViewModel.getTvShows())
+        tvShowViewModel = activity?.let { ViewModelProvider(it, ViewModelFactory.getInstance()).get(TvShowViewModel::class.java) }!!
+        tvShowViewModel.getTvShow().observe(viewLifecycleOwner, {
+            progressBar(false)
+            recyclerViewConfig(it)
+        })
 
-        fragmentTvShowBinding.rvTvShowsFragment.apply {
+        savedInstanceState?.putBundle("tv_show_state", savedInstanceState)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.getBundle("tv_show_state")
+    }
+
+    private fun recyclerViewConfig(listTvShow: List<TvShow>) {
+        rv_tv_shows_fragment.apply {
             setHasFixedSize(true)
-            layoutManager = GridLayoutManager(context, 1)
-            adapter = movieAdapter
+            layoutManager = GridLayoutManager(activity, 1)
+            tvShowAdapter = AdapterTvShow(listTvShow)
+            adapter = tvShowAdapter
         }
 
-        movieAdapter.setOnViewClickListener(object : AdapterMovie.ViewClickListener{
-            override fun onClick(dataEntity: EntityData) {
+        tvShowAdapter.setOnViewClickListener(object : AdapterTvShow.TvShowViewClickListener{
+            override fun onClick(tvShow: TvShow) {
                 val intent = Intent(activity, DetailMovieActivity::class.java)
-                    .putExtra(DetailMovieActivity.EXTRA_TITLE, dataEntity.title)
-                    .putExtra(DetailMovieActivity.EXTRA_ID, dataEntity.dataId)
+                    .putExtra(DetailMovieActivity.EXTRA_TITLE, tvShow.original_name)
+                    .putExtra(DetailMovieActivity.EXTRA_ID, tvShow.id.toString())
                     .putExtra(DetailMovieActivity.EXTRA_TYPE, TVSHOW_TYPE)
+
                 startActivity(intent)
             }
 
         })
+    }
+
+    private fun progressBar(state: Boolean) {
+        if (state) {
+            pb_tv_shows.visibility = View.VISIBLE
+        } else {
+            pb_tv_shows.visibility = View.GONE
+        }
     }
 }

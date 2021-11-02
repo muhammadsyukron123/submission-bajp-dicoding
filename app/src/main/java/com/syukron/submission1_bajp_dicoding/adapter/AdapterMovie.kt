@@ -6,21 +6,19 @@ import com.bumptech.glide.Glide
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.syukron.submission1_bajp_dicoding.R
-import com.syukron.submission1_bajp_dicoding.model.EntityData
+import com.syukron.submission1_bajp_dicoding.model.movie.Movie
 import kotlinx.android.synthetic.main.item_row_movies.view.*
 
-class AdapterMovie : RecyclerView.Adapter<AdapterMovie.MovieViewHolder>() {
+class AdapterMovie(private val movies : List<Movie>) : RecyclerView.Adapter<AdapterMovie.MovieViewHolder>() {
 
-    private val dataEntity = ArrayList<EntityData>()
-    private lateinit var viewClickListener: ViewClickListener
-
-    fun setData(dataEntities: List<EntityData>){
-        this.dataEntity.clear()
-        this.dataEntity.addAll(dataEntities)
+    companion object {
+        private const val POSTER_URL = "https://image.tmdb.org/t/p/w500"
     }
 
-    fun setOnViewClickListener(viewClickListener: ViewClickListener){
-        this.viewClickListener = viewClickListener
+    private lateinit var movieViewClickListener: MovieViewClickListener
+
+    fun setOnViewClickListener(movieViewClickListener: MovieViewClickListener){
+        this.movieViewClickListener = movieViewClickListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -29,26 +27,29 @@ class AdapterMovie : RecyclerView.Adapter<AdapterMovie.MovieViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(dataEntity[position])
+        holder.bind(movies[position])
     }
 
-    override fun getItemCount(): Int = dataEntity.size
+    override fun getItemCount(): Int = movies.size
 
     inner class MovieViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        fun bind(dataEntity: EntityData){
+        fun bind(movie : Movie){
             with(itemView){
-                Glide.with(this).load(dataEntity.imgPoster).into(img_item_photo)
-                tv_title.text = dataEntity.title
-                tv_genre.text = dataEntity.genre
+                Glide.with(this)
+                    .load(POSTER_URL + movie.poster_path).error(R.drawable.ic_broken_image).placeholder(R.drawable.ic_refresh)
+                    .into(img_item_photo)
+
+                tv_title.text = movie.original_title
+                tv_genre.text = movie.vote_average.toString()
             }
             itemView.setOnClickListener{
-                viewClickListener.onClick(dataEntity)
+                movieViewClickListener.onClick(movie)
             }
         }
     }
 
-    interface ViewClickListener{
-        fun onClick(dataEntity: EntityData)
+    interface MovieViewClickListener{
+        fun onClick(movie: Movie)
     }
 
 }

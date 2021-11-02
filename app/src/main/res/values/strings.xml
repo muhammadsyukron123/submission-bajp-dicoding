@@ -8,7 +8,7 @@
     <string name="title">Title</string>
     <string name="movie">Movie</string>
     <string name="tvshow">TV Show</string>
-    <string name="release">Release Year</string>
+    <string name="release">Release Date</string>
     <string name="overview_description">Overview Description</string>
     <string name="overview">Overview</string>
     <string name="genre">Genre</string>

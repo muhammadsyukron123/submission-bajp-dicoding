@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.syukron.submission1_bajp_dicoding.R
 import com.syukron.submission1_bajp_dicoding.adapter.AdapterMovie
-import com.syukron.submission1_bajp_dicoding.databinding.FragmentMovieBinding
-import com.syukron.submission1_bajp_dicoding.model.EntityData
+import com.syukron.submission1_bajp_dicoding.model.movie.Movie
 import com.syukron.submission1_bajp_dicoding.viewmodel.MovieViewModel
+import com.syukron.submission1_bajp_dicoding.viewmodel.ViewModelFactory
+import kotlinx.android.synthetic.main.fragment_movie.*
 
 
 class MovieFragment : Fragment() {
@@ -19,39 +21,54 @@ class MovieFragment : Fragment() {
         const val MOVIE_TYPE = "movie_type"
     }
 
-    private var movieAdapter = AdapterMovie()
-    private lateinit var fragmentMovieBinding: FragmentMovieBinding
+    private lateinit var movieAdapter: AdapterMovie
     private lateinit var movieViewModel: MovieViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        fragmentMovieBinding = FragmentMovieBinding.inflate(inflater, container, false)
-        return fragmentMovieBinding.root
+        return inflater.inflate(R.layout.fragment_movie, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        movieViewModel = ViewModelProvider(requireActivity(), ViewModelProvider.NewInstanceFactory()).get(MovieViewModel::class.java)
+        progressBar(true)
 
-        movieAdapter.setData(movieViewModel.getMovies())
+        movieViewModel = activity?.let { ViewModelProvider(it, ViewModelFactory.getInstance())[MovieViewModel::class.java] }!!
+        movieViewModel.getMovie().observe(viewLifecycleOwner, {
+            progressBar(false)
+            recyclerViewConfig(it)
+        })
+    }
 
-        fragmentMovieBinding.rvMovieFragment.apply {
+    private fun recyclerViewConfig(listMovie: List<Movie>) {
+        rv_movie_fragment.apply {
             setHasFixedSize(true)
-            layoutManager = GridLayoutManager(context, 1)
+            layoutManager = GridLayoutManager(activity, 1)
+            movieAdapter = AdapterMovie(listMovie)
             adapter = movieAdapter
         }
 
-        movieAdapter.setOnViewClickListener(object : AdapterMovie.ViewClickListener{
-            override fun onClick(dataEntity: EntityData) {
+        movieAdapter.setOnViewClickListener(object : AdapterMovie.MovieViewClickListener{
+            override fun onClick(movie: Movie) {
                 val intent = Intent(activity, DetailMovieActivity::class.java)
-                    .putExtra(DetailMovieActivity.EXTRA_TITLE, dataEntity.title)
-                    .putExtra(DetailMovieActivity.EXTRA_ID, dataEntity.dataId)
+                    .putExtra(DetailMovieActivity.EXTRA_TITLE, movie.original_title)
+                    .putExtra(DetailMovieActivity.EXTRA_ID, movie.id.toString())
                     .putExtra(DetailMovieActivity.EXTRA_TYPE, MOVIE_TYPE)
+
                 startActivity(intent)
             }
 
         })
     }
+
+    private fun progressBar(state: Boolean) {
+        if (state) {
+            pb_movie.visibility = View.VISIBLE
+        } else {
+            pb_movie.visibility = View.GONE
+        }
+    }
+
 }

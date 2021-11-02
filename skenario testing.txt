@@ -2,32 +2,49 @@
 
 MovieViewModelTest :
 - Memuat Movies :
+  * Memanipulasi data ketika pemanggilan data Movie di kelas repository.
+  * Memastikan method di kelas repository terpanggil
   * Memastikan data movies tidak null
   * Memastikan jumlah data movies sesuai dengan yang diharapkan
 
 TvShowViewModelTest
 - Memuat Tv Show :
+  * Memanipulasi data ketika pemanggilan data TvShow di kelas repository.
+  * Memastikan method di kelas repository terpanggil
   * Memastikan data tvShows tidak null
   * Memastikan jumlah data tvShows sesuai dengan yang diharapkan
 
 DetailMovieViewModelTest 
 - Memuat Movies :
+  * Memanipulasi data ketika pemanggilan data Movie di kelas repository.
+  * Memastikan method di kelas repository terpanggil
   * Memastikan data movies tidak null
-  * Memastikan jumlah data movies sesuai dengan yang diharapkan 
+  * Memastikan jumlah data Movie sesuai dengan yang diharapkan 
 
 - Memuat Tv Show :
-  * Memastikan data tvShows tidak null
-  * Memastikan jumlah data tvShows sesuai dengan yang diharapkan
+  * Memanipulasi data ketika pemanggilan data TvShow di kelas repository.
+  * Memastikan method di kelas repository terpanggil
+  * Memastikan data TvShow tidak null
+  * Memastikan jumlah data TvShow sesuai dengan yang diharapkan
 
 - Memuat Modules:
+  * Memanipulasi data ketika pemanggilan module di kelas repository.
+  * Memastikan method di kelas repository terpanggil
   * Memastikan data module tidak null
   * Memastikan jumlah data module sesuai dengan yang diharapkan
 
-- Memuat Module yang dipilih :
+ContentRepositoryTest :
+- Memuat Modules :
+  * Memanipulasi data ketika pemanggilan module di kelas repository.
+  * Memastikan method di kelas repository terpanggil
   * Memastikan data module tidak null
-  * Memastikan data item tidak null
-  * Memastikan value dari item tidak null
-  * Memastikan data item sesuai dengan yang diharapkan
+  * Memastikan jumlah data module sesuai dengan yang diharapkan
+- Memuat Module yang dipilih :
+  * Memanipulasi data ketika pemanggilan content di kelas repository.
+  * Memastikan method di kelas repository terpanggil
+  * Memastikan data content tidak null
+  * Memastikan jumlah data content sesuai dengan yang diharapkan
+
 
 ***Instrumental Testing***
 - Menampilkan data daftar movie

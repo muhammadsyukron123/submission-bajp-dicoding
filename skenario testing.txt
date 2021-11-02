@@ -1,0 +1,54 @@
+***Unit Testing***
+
+MovieViewModelTest :
+- Memuat Movies :
+  * Memastikan data movies tidak null
+  * Memastikan jumlah data movies sesuai dengan yang diharapkan
+
+TvShowViewModelTest
+- Memuat Tv Show :
+  * Memastikan data tvShows tidak null
+  * Memastikan jumlah data tvShows sesuai dengan yang diharapkan
+
+DetailMovieViewModelTest 
+- Memuat Movies :
+  * Memastikan data movies tidak null
+  * Memastikan jumlah data movies sesuai dengan yang diharapkan 
+
+- Memuat Tv Show :
+  * Memastikan data tvShows tidak null
+  * Memastikan jumlah data tvShows sesuai dengan yang diharapkan
+
+- Memuat Modules:
+  * Memastikan data module tidak null
+  * Memastikan jumlah data module sesuai dengan yang diharapkan
+
+- Memuat Module yang dipilih :
+  * Memastikan data module tidak null
+  * Memastikan data item tidak null
+  * Memastikan value dari item tidak null
+  * Memastikan data item sesuai dengan yang diharapkan
+
+***Instrumental Testing***
+- Menampilkan data daftar movie
+  * Memastikan rv_movie_fragment dalam keadaan tampil
+  * Gulir rv_movie_fragment ke posisi data terakhir
+
+- Menampilkan data detail movie
+  * Memberikan tindakan klik pada data pertama di rv_movie_fragment
+  * Memastikan Textview untuk title tampil sesuai dengan yang diharapkan
+  * Memastikan Textview untuk year tampil sesuai dengan yang diharapkan   		
+  * Memastikan Textview untuk genre tampil sesuai dengan yang diharapkan
+  * Memastikan Textview untuk overview tampil sesuai dengan yang diharapkan
+
+- Menampilkan data daftar tv show
+  * Memastikan rv_tv_shows_fragment dalam keadaan tampil
+  * Gulir rv_tv_shows_fragment ke posisi data terakhir
+
+- Menampilkan data detail tv show
+  * Memberikan tindakan klik pada data pertama di rv_tv_shows_fragment
+  * Memastikan Textview untuk title tampil sesuai dengan yang diharapkan
+  * Memastikan Textview untuk year tampil sesuai dengan yang diharapkan   		
+  * Memastikan Textview untuk genre tampil sesuai dengan yang diharapkan
+  * Memastikan Textview untuk overview tampil sesuai dengan yang diharapkan
+

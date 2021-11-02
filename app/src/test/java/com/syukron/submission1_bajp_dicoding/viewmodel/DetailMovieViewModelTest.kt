@@ -19,7 +19,7 @@ import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class DetailViewModelTest {
+class DetailMovieViewModelTest {
 
     private lateinit var detailViewModel: DetailMovieViewModel
 
